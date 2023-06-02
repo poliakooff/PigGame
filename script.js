@@ -14,15 +14,25 @@ const btnHold = document.querySelector('.btn--hold');
 const playerActive = document.querySelector('.player--active');
 
 // Game intial conditions
+let totalScores, currentScore, activePlayer, isPlaying;
 
-score0Element.textContent = 0;
-score1Element.textContent = 0;
-diceElement.classList.add('hidden');
+const initGame = function () {
+  totalScores = [0, 0];
+  currentScore = 0;
+  activePlayer = 0;
+  isPlaying = true;
 
-const totalScores = [0, 0];
-let currentScore = 0;
-let activePlayer = 0;
-let isPlaying = true;
+  score0Element.textContent = 0;
+  score1Element.textContent = 0;
+  current0Element.textContent = 0;
+  current1Element.textContent = 0;
+  player0Element.classList.remove('player--winner');
+  player1Element.classList.remove('player--winner');
+  player0Element.classList.add('player--active');
+  player1Element.classList.remove('player--active');
+  diceElement.classList.add('hidden');
+};
+initGame();
 
 const switchActivePlayer = function () {
   currentScore = 0;
@@ -54,7 +64,6 @@ const rollDice = function () {
   }
 };
 btnRollDice.addEventListener('click', rollDice);
-
 const pressHold = function () {
   if (!diceElement.classList.contains('hidden')) {
     if (isPlaying) {
@@ -64,7 +73,7 @@ const pressHold = function () {
         totalScores[activePlayer];
 
       // 2. If total score of active player >= 100, active player won, if not - swich active player
-      if (totalScores[activePlayer] >= 20) {
+      if (totalScores[activePlayer] >= 100) {
         isPlaying = false;
         document
           .querySelector(`.player--${activePlayer}`)
@@ -81,39 +90,5 @@ const pressHold = function () {
 };
 btnHold.addEventListener('click', pressHold);
 
-// const playerPressHold = function () {};
-
-// const playerLost = function () {
-//   currentScore = 0;
-//   current0Element.textContent = 0;
-//   current1Element.textContent = 0;
-
-//   for (let i = 0; i < player.length; i++) {
-//     if (player[i].classList.contains('player--active')) {
-//       player[i].classList.remove('player--active');
-//     } else {
-//       player[i].classList.add('player--active');
-//     }
-//   }
-// };
-// const changePlayer = function () {
-//   if (player[0].classList.contains('player--active')) {
-//     score0Element.textContent =
-//       Number(score0Element.textContent) + currentScore;
-//     currentScore = 0;
-//   } else {
-//     score1Element.textContent =
-//       Number(score1Element.textContent) + currentScore;
-//     currentScore = 0;
-//   }
-//   current0Element.textContent = 0;
-//   current1Element.textContent = 0;
-
-//   for (let i = 0; i < player.length; i++) {
-//     if (player[i].classList.contains('player--active')) {
-//       player[i].classList.remove('player--active');
-//     } else {
-//       player[i].classList.add('player--active');
-//     }
-//   }
-// };
+// Start a new game
+btnNew.addEventListener('click', initGame);
